@@ -1,0 +1,1320 @@
+<!-- edit-quote.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Quote · quote•lounge</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f4f1fa 0%, #e8e0ff 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        .edit-quote-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: #3c2e6b;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 14px -6px rgba(45, 28, 90, 0.3);
+        }
+
+        .logo-area h1 {
+            font-weight: 620;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            color: #251e3d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #4a3f6b;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.6);
+            color: #2d2252;
+        }
+
+        .nav-link.active {
+            background: white;
+            color: #3c2e6b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(145deg, #6b5b9c, #4f3f82);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px -4px #3c2e6b;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            color: #6a5e8a;
+        }
+
+        .breadcrumb a {
+            color: #4a3f6b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            color: #2d2252;
+            text-decoration: underline;
+        }
+
+        .breadcrumb i {
+            font-size: 0.8rem;
+            color: #9b8acf;
+        }
+
+        /* Main Edit Card */
+        .edit-card {
+            background: white;
+            border-radius: 48px;
+            padding: 2.5rem;
+            box-shadow: 0 30px 50px -20px rgba(41, 24, 78, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px dashed #e3daf5;
+        }
+
+        .header-title h2 {
+            font-size: 2.2rem;
+            color: #251e3d;
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title p {
+            color: #6a5e8a;
+            font-size: 1rem;
+        }
+
+        .quote-id {
+            background: #f0ebfc;
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            color: #4a3f6b;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid #d8cef0;
+        }
+
+        .quote-id i {
+            color: #8b7bb8;
+            margin-right: 8px;
+        }
+
+        /* Form Styles */
+        .edit-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: #3f3563;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-group label i {
+            color: #8b7bb8;
+            margin-right: 8px;
+            width: 20px;
+        }
+
+        .form-group label .required {
+            color: #dc2626;
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e3daf5;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+            background: #fcfaff;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+            background: white;
+        }
+
+        .form-control.error {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 150px;
+            line-height: 1.6;
+        }
+
+        /* Character counter */
+        .char-counter {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #8f82b3;
+            margin-top: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+
+        .char-counter.danger {
+            color: #dc2626;
+        }
+
+        /* Author section */
+        .author-input-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .author-input-group .form-control {
+            flex: 1;
+        }
+
+        .author-badge {
+            background: #f0ebfc;
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4a3f6b;
+            border: 2px solid #e3daf5;
+        }
+
+        .author-badge i {
+            color: #8b7bb8;
+        }
+
+        /* Category Selector */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .category-option {
+            position: relative;
+        }
+
+        .category-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .category-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 1.2rem;
+            background: #f8f5ff;
+            border: 2px solid #e3daf5;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            color: #4a3f6b;
+        }
+
+        .category-option label i {
+            color: #8b7bb8;
+            font-size: 1.1rem;
+        }
+
+        .category-option input[type="radio"]:checked + label {
+            background: #3c2e6b;
+            border-color: #3c2e6b;
+            color: white;
+            box-shadow: 0 8px 15px -8px #3c2e6b;
+        }
+
+        .category-option input[type="radio"]:checked + label i {
+            color: white;
+        }
+
+        .category-option label:hover {
+            background: #ede7ff;
+            border-color: #9b8acf;
+        }
+
+        /* Tags input */
+        .tags-input-container {
+            border: 2px solid #e3daf5;
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            background: #fcfaff;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .tag {
+            background: #e7dffc;
+            color: #372f58;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .tag i {
+            cursor: pointer;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .tag i:hover {
+            opacity: 1;
+            color: #dc2626;
+        }
+
+        .tags-input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .tags-input:focus {
+            outline: none;
+        }
+
+        .tags-hint {
+            font-size: 0.8rem;
+            color: #8f82b3;
+            margin-top: 0.5rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Privacy options */
+        .privacy-options {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .privacy-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .privacy-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4f46e5;
+            cursor: pointer;
+        }
+
+        .privacy-option span {
+            color: #4a3f6b;
+            font-weight: 500;
+        }
+
+        .privacy-option small {
+            color: #8f82b3;
+            font-size: 0.85rem;
+            margin-left: 5px;
+        }
+
+        /* Revision history */
+        .revision-history {
+            background: #f8f5ff;
+            border-radius: 30px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 2px solid #e3daf5;
+        }
+
+        .revision-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            color: #3f3563;
+            font-weight: 600;
+        }
+
+        .revision-list {
+            list-style: none;
+        }
+
+        .revision-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #e3daf5;
+            color: #5d4f82;
+        }
+
+        .revision-item:last-child {
+            border-bottom: none;
+        }
+
+        .revision-time {
+            font-size: 0.9rem;
+            color: #8f82b3;
+        }
+
+        .revision-badge {
+            background: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid #9b8acf;
+        }
+
+        .restore-link {
+            color: #4f46e5;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .restore-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e3daf5;
+        }
+
+        .btn-primary {
+            background: #3c2e6b;
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 10px 20px -8px #382e63;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 2;
+            justify-content: center;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #2d2252;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -10px #2d2252;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4a3f6b;
+            border: 2px solid #e3daf5;
+            padding: 1.2rem 2.5rem;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f5ff;
+            border-color: #9b8acf;
+        }
+
+        .btn-danger {
+            background: white;
+            color: #dc2626;
+            border: 2px solid #fecaca;
+            padding: 1.2rem 2rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-danger:hover {
+            background: #fee2e2;
+            border-color: #dc2626;
+        }
+
+        /* Preview Card */
+        .preview-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 48px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            color: #4a3f6b;
+        }
+
+        .preview-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .quote-preview {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px -12px rgba(28, 15, 54, 0.2);
+        }
+
+        .preview-badge {
+            display: inline-block;
+            background: #e7dffc;
+            color: #372f58;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            margin-bottom: 1rem;
+        }
+
+        .preview-text {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #1a112b;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .preview-text::before {
+            content: "“";
+            font-size: 2rem;
+            color: #9b8acf;
+            font-family: serif;
+            margin-right: 2px;
+        }
+
+        .preview-text::after {
+            content: "”";
+            font-size: 2rem;
+            color: #9b8acf;
+            font-family: serif;
+            margin-left: 2px;
+        }
+
+        .preview-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #46397c;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border-top: 1.5px dashed #cec1e8;
+            padding-top: 1rem;
+        }
+
+        /* Success/Error Messages */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 40px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            color: #92400e;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Delete Confirmation Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 48px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 30px 60px -20px #1a112b;
+            text-align: center;
+        }
+
+        .modal-icon {
+            width: 70px;
+            height: 70px;
+            background: #fee2e2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: #dc2626;
+            font-size: 2rem;
+        }
+
+        .modal h3 {
+            font-size: 1.8rem;
+            color: #1a112b;
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            color: #6a5e8a;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .modal-btn.cancel {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #e5e7eb;
+        }
+
+        .modal-btn.delete {
+            background: #dc2626;
+            color: white;
+        }
+
+        .modal-btn.delete:hover {
+            background: #b91c1c;
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Unsaved changes warning */
+        .unsaved-warning {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #2d2252;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 20px 30px -10px #1a112b;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideUp 0.3s ease;
+            z-index: 100;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .unsaved-warning i {
+            color: #fbbf24;
+        }
+
+        .unsaved-warning button {
+            background: white;
+            color: #2d2252;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-quote-container">
+        <!-- Navigation -->
+        <nav class="top-nav">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-quote-left"></i></div>
+                <h1>quote•lounge</h1>
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a>
+                <a href="add-quote.html" class="nav-link"><i class="fas fa-plus-circle"></i> Add Quote</a>
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="profile.html#quotes">My Quotes</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Edit Quote</span>
+        </div>
+
+        <!-- Success Message (hidden by default) -->
+        <!-- <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            Quote updated successfully! Changes are now live.
+        </div> -->
+
+        <!-- Error Message (hidden by default) -->
+        <!-- <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            Error updating quote. Please try again.
+        </div> -->
+
+        <!-- Main Edit Card -->
+        <div class="edit-card">
+            <div class="page-header">
+                <div class="header-title">
+                    <h2><i class="fas fa-edit"></i> Edit Quote</h2>
+                    <p>Make changes to your quote below</p>
+                </div>
+                <div class="quote-id">
+                    <i class="fas fa-hashtag"></i> Quote ID: QT-2024-0427
+                </div>
+            </div>
+
+            <form class="edit-form" id="editForm" method="post">
+                {% csrf_token %}
+                <!-- Quote Text -->
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-quote-right"></i> Quote 
+                        <span class="required">*</span>
+                    </label>
+                    <textarea 
+                        class="form-control" 
+                        id="quoteText" 
+                        placeholder="Enter the quote here..."
+                        maxlength="500"
+                        name="quotetext"
+                        required
+                    ></textarea>
+                    <div class="char-counter" id="charCounter">
+                        <i class="fas fa-text-height"></i> <span id="charCount">0</span>/500
+                    </div>
+                </div>
+
+                <!-- Author -->
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-user"></i> Author 
+                        <span class="required">*</span>
+                    </label>
+                    <div class="author-input-group">
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="author" 
+                            placeholder="Who said this?"
+                            name="author"
+                            required
+                        >
+                        <div class="author-badge">
+                            <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                            Known Author
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Selection -->
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-tag"></i> Category 
+                        <span class="required">*</span>
+                    </label>
+                    <div class="category-grid">
+                        <div class="category-option">
+                            <input type="radio" name="category" id="catLife" value="life" checked>
+                            <label for="catLife"><i class="fas fa-heart"></i> Life</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" name="category" id="catSuccess" value="success">
+                            <label for="catSuccess"><i class="fas fa-trophy"></i> Success</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" name="category" id="catHappiness" value="happiness">
+                            <label for="catHappiness"><i class="fas fa-smile"></i> Happiness</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" name="category" id="catLove" value="love">
+                            <label for="catLove"><i class="fas fa-heart"></i> Love</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" name="category" id="catWisdom" value="wisdom">
+                            <label for="catWisdom"><i class="fas fa-brain"></i> Wisdom</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" name="category" id="catHumor" value="humor">
+                            <label for="catHumor"><i class="fas fa-laugh"></i> Humor</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" name="category" id="catArt" value="art">
+                            <label for="catArt"><i class="fas fa-palette"></i> Art</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" name="category" id="catScience" value="science">
+                            <label for="catScience"><i class="fas fa-flask"></i> Science</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="form-group">
+                    <label><i class="fas fa-hashtag"></i> Tags</label>
+                    <div class="tags-input-container" id="tagsContainer">
+                        <span class="tag">inspiration <i class="fas fa-times" onclick="removeTag(this)"></i></span>
+                        <span class="tag">success <i class="fas fa-times" onclick="removeTag(this)"></i></span>
+                        <span class="tag">motivation <i class="fas fa-times" onclick="removeTag(this)"></i></span>
+                        <span class="tag">steve-jobs <i class="fas fa-times" onclick="removeTag(this)"></i></span>
+                        <span class="tag">apple <i class="fas fa-times" onclick="removeTag(this)"></i></span>
+                        <input 
+                            type="text" 
+                            class="tags-input" 
+                            id="tagInput" 
+                            placeholder="Add a tag..."
+                            onkeydown="handleTagInput(event)"
+                        >
+                    </div>
+                    <div class="tags-hint">
+                        <i class="fas fa-info-circle"></i> Press comma or enter to add a tag
+                    </div>
+                </div>
+
+                <!-- Privacy Options -->
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Privacy</label>
+                    <div class="privacy-options">
+                        <label class="privacy-option">
+                            <input type="radio" name="privacy" value="public" checked>
+                            <span>Public <small>Everyone can see</small></span>
+                        </label>
+                        <label class="privacy-option">
+                            <input type="radio" name="privacy" value="private">
+                            <span>Private <small>Only you</small></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Revision History -->
+                <div class="revision-history">
+                    <div class="revision-header">
+                        <i class="fas fa-history"></i>
+                        <span>Revision History</span>
+                    </div>
+                    <ul class="revision-list">
+                        <li class="revision-item">
+                            <div>
+                                <span class="revision-badge">Current</span>
+                                <span style="margin-left: 10px;">Edited by you</span>
+                            </div>
+                            <span class="revision-time">2 minutes ago</span>
+                        </li>
+                        <li class="revision-item">
+                            <div>
+                                <span>Original version</span>
+                            </div>
+                            <span class="revision-time">March 15, 2024</span>
+                            <a href="#" class="restore-link">Restore</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <a href="profile.html" class="btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn-primary" id="saveBtn">
+                        <i class="fas fa-save"></i> Save Changes
+                        <span class="spinner" style="display: none;"></span>
+                    </button>
+                    <button type="button" class="btn-danger" onclick="openDeleteModal()">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Live Preview -->
+        <div class="preview-card">
+            <div class="preview-header">
+                <i class="fas fa-eye"></i>
+                <h3>Live Preview</h3>
+            </div>
+            <div class="quote-preview" id="quotePreview">
+                <span class="preview-badge" id="previewCategory">Life</span>
+                <div class="preview-text" id="previewText">
+                    The only way to do great work is to love what you do. This quote has inspired millions of people around the world to pursue their passions and find meaning in their work.
+                </div>
+                <div class="preview-author" id="previewAuthor">
+                    <i class="fas fa-feather"></i> Steve Jobs
+                </div>
+            </div>
+        </div>
+
+        <!-- Unsaved Changes Warning (hidden by default) -->
+        <!-- <div class="unsaved-warning" id="unsavedWarning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>You have unsaved changes</span>
+            <button onclick="discardChanges()">Discard</button>
+        </div> -->
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Delete Quote?</h3>
+            <p>Are you sure you want to delete this quote? This action cannot be undone and the quote will be permanently removed from your profile.</p>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="modal-btn delete" onclick="deleteQuote()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Character counter
+        const quoteText = document.getElementById('quoteText');
+        const charCount = document.getElementById('charCount');
+        const charCounter = document.getElementById('charCounter');
+
+        quoteText.addEventListener('input', function() {
+            const length = this.value.length;
+            charCount.textContent = length;
+            
+            // Update counter color based on length
+            charCounter.classList.remove('warning', 'danger');
+            if (length > 450) {
+                charCounter.classList.add('danger');
+            } else if (length > 400) {
+                charCounter.classList.add('warning');
+            }
+            
+            checkUnsavedChanges();
+            updatePreview();
+        });
+
+        // Live preview update
+        function updatePreview() {
+            const text = document.getElementById('quoteText').value || 'Your quote will appear here';
+            const author = document.getElementById('author').value || 'Anonymous';
+            const category = document.querySelector('input[name="category"]:checked');
+            const categoryLabel = category ? category.nextElementSibling.textContent.trim() : 'Life';
+            
+            document.getElementById('previewText').textContent = text;
+            document.getElementById('previewAuthor').innerHTML = '<i class="fas fa-feather"></i> ' + author;
+            document.getElementById('previewCategory').textContent = categoryLabel;
+        }
+
+        // Track original values for unsaved changes detection
+        const originalValues = {
+            text: quoteText.value,
+            author: document.getElementById('author').value,
+            category: document.querySelector('input[name="category"]:checked')?.value,
+            privacy: document.querySelector('input[name="privacy"]:checked')?.value
+        };
+
+        function checkUnsavedChanges() {
+            const currentText = quoteText.value;
+            const currentAuthor = document.getElementById('author').value;
+            const currentCategory = document.querySelector('input[name="category"]:checked')?.value;
+            const currentPrivacy = document.querySelector('input[name="privacy"]:checked')?.value;
+            
+            const hasChanges = 
+                currentText !== originalValues.text ||
+                currentAuthor !== originalValues.author ||
+                currentCategory !== originalValues.category ||
+                currentPrivacy !== originalValues.privacy;
+            
+            const warning = document.getElementById('unsavedWarning');
+            if (warning) {
+                warning.style.display = hasChanges ? 'flex' : 'none';
+            }
+        }
+
+        // Update preview on all changes
+        document.getElementById('author').addEventListener('input', function() {
+            checkUnsavedChanges();
+            updatePreview();
+        });
+        
+        document.querySelectorAll('input[name="category"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                checkUnsavedChanges();
+                updatePreview();
+            });
+        });
+        
+        document.querySelectorAll('input[name="privacy"]').forEach(radio => {
+            radio.addEventListener('change', checkUnsavedChanges);
+        });
+
+        // Tags functionality
+        function handleTagInput(event) {
+            if (event.key === ',' || event.key === 'Enter') {
+                event.preventDefault();
+                const input = event.target;
+                const tag = input.value.trim().replace(/,/g, '');
+                
+                if (tag) {
+                    addTag(tag);
+                    input.value = '';
+                    checkUnsavedChanges();
+                }
+            }
+        }
+
+        function addTag(tag) {
+            const container = document.getElementById('tagsContainer');
+            const tagElement = document.createElement('span');
+            tagElement.className = 'tag';
+            tagElement.innerHTML = `${tag} <i class="fas fa-times" onclick="removeTag(this)"></i>`;
+            
+            const input = document.getElementById('tagInput');
+            container.insertBefore(tagElement, input);
+            checkUnsavedChanges();
+        }
+
+        function removeTag(element) {
+            element.parentElement.remove();
+            checkUnsavedChanges();
+        }
+
+        // Form submission
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate form
+            if (!quoteText.value.trim()) {
+                quoteText.classList.add('error');
+                quoteText.focus();
+                showAlert('Please enter a quote', 'error');
+                return;
+            }
+            
+            if (!document.getElementById('author').value.trim()) {
+                document.getElementById('author').classList.add('error');
+                document.getElementById('author').focus();
+                showAlert('Please enter an author', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const saveBtn = document.getElementById('saveBtn');
+            const spinner = saveBtn.querySelector('.spinner');
+            const btnText = saveBtn.querySelector('i.fa-save');
+            
+            btnText.style.display = 'none';
+            spinner.style.display = 'inline-block';
+            saveBtn.classList.add('loading');
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Hide loading
+                spinner.style.display = 'none';
+                btnText.style.display = 'inline-block';
+                saveBtn.classList.remove('loading');
+                
+                // Show success message
+                showAlert('Quote updated successfully! Changes are now live.', 'success');
+                
+                // Update original values
+                originalValues.text = quoteText.value;
+                originalValues.author = document.getElementById('author').value;
+                originalValues.category = document.querySelector('input[name="category"]:checked')?.value;
+                originalValues.privacy = document.querySelector('input[name="privacy"]:checked')?.value;
+                
+                checkUnsavedChanges();
+            }, 1500);
+        });
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+            
+            const container = document.querySelector('.edit-card');
+            container.insertBefore(alert, container.firstChild);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+
+        // Remove error class on input
+        quoteText.addEventListener('input', function() {
+            this.classList.remove('error');
+        });
+        
+        document.getElementById('author').addEventListener('input', function() {
+            this.classList.remove('error');
+        });
+
+        // Delete modal functions
+        function openDeleteModal() {
+            document.getElementById('deleteModal').classList.add('active');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+        }
+
+        function deleteQuote() {
+            closeDeleteModal();
+            
+            // Show loading state
+            showAlert('Deleting quote...', 'warning');
+            
+            // Simulate delete
+            setTimeout(() => {
+                window.location.href = 'profile.html?deleted=true';
+            }, 1000);
+        }
+
+        // Discard changes
+        function discardChanges() {
+            if (confirm('Are you sure you want to discard all unsaved changes?')) {
+                // Reset form to original values
+                quoteText.value = originalValues.text;
+                document.getElementById('author').value = originalValues.author;
+                document.querySelector(`input[name="category"][value="${originalValues.category}"]`).checked = true;
+                document.querySelector(`input[name="privacy"][value="${originalValues.privacy}"]`).checked = true;
+                
+                updatePreview();
+                checkUnsavedChanges();
+                
+                showAlert('Changes discarded', 'warning');
+            }
+        }
+
+        // Warn before leaving if unsaved changes
+        window.addEventListener('beforeunload', function(e) {
+            const hasChanges = 
+                quoteText.value !== originalValues.text ||
+                document.getElementById('author').value !== originalValues.author ||
+                document.querySelector('input[name="category"]:checked')?.value !== originalValues.category ||
+                document.querySelector('input[name="privacy"]:checked')?.value !== originalValues.privacy;
+            
+            if (hasChanges) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        // Initialize preview
+        updatePreview();
+    </script>
+</body>
+</html>

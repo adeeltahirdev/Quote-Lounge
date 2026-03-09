@@ -1,0 +1,1026 @@
+<!-- add-quote.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Quote · quote•lounge</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(145deg, #f4f1fa 0%, #e8e0ff 100%);
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        min-height: 100vh;
+        padding: 2rem 1.5rem;
+      }
+
+      .add-quote-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* Navigation */
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2.5rem;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        background: #3c2e6b;
+        color: white;
+        width: 48px;
+        height: 48px;
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        box-shadow: 0 8px 14px -6px rgba(45, 28, 90, 0.3);
+      }
+
+      .logo-area h1 {
+        font-weight: 620;
+        font-size: 1.8rem;
+        letter-spacing: -0.5px;
+        color: #251e3d;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: #4a3f6b;
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        transition: all 0.2s;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.6);
+        color: #2d2252;
+      }
+
+      .nav-link.active {
+        background: white;
+        color: #3c2e6b;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .user-avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(145deg, #6b5b9c, #4f3f82);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+        border: 3px solid white;
+        box-shadow: 0 4px 10px -4px #3c2e6b;
+      }
+
+      /* Main Add Quote Card */
+      .add-quote-card {
+        background: white;
+        border-radius: 48px;
+        padding: 2.8rem;
+        box-shadow: 0 30px 50px -20px rgba(41, 24, 78, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        margin-bottom: 2rem;
+      }
+
+      .page-header {
+        margin-bottom: 2.5rem;
+        text-align: center;
+      }
+
+      .page-header h2 {
+        font-size: 2.5rem;
+        color: #251e3d;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+
+      .page-header p {
+        color: #6a5e8a;
+        font-size: 1.1rem;
+      }
+
+      .page-header i {
+        color: #9b8acf;
+        margin-right: 5px;
+      }
+
+      /* Form Styles */
+      .quote-form {
+        width: 100%;
+      }
+
+      .form-group {
+        margin-bottom: 2rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: #3f3563;
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: -0.2px;
+      }
+
+      .form-group label i {
+        color: #8b7bb8;
+        margin-right: 8px;
+        width: 20px;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 1.2rem 1.5rem;
+        border: 2px solid #e3daf5;
+        border-radius: 30px;
+        font-size: 1.05rem;
+        transition: all 0.2s;
+        background: #fcfaff;
+        font-family: inherit;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+        background: white;
+      }
+
+      .form-control::placeholder {
+        color: #b4a9d0;
+        font-style: italic;
+      }
+
+      textarea.form-control {
+        resize: vertical;
+        min-height: 150px;
+        line-height: 1.6;
+      }
+
+      /* Character counter */
+      .char-counter {
+        text-align: right;
+        font-size: 0.85rem;
+        color: #8f82b3;
+        margin-top: 0.5rem;
+        margin-right: 0.5rem;
+      }
+
+      .char-counter i {
+        margin-right: 4px;
+      }
+
+      /* Category Selector */
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .category-option {
+        position: relative;
+      }
+
+      .category-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .category-option label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 1rem 1.2rem;
+        background: #f8f5ff;
+        border: 2px solid #e3daf5;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-weight: 500;
+        color: #4a3f6b;
+        margin-bottom: 0;
+      }
+
+      .category-option label i {
+        color: #8b7bb8;
+        font-size: 1.1rem;
+      }
+
+      .category-option input[type="radio"]:checked + label {
+        background: #3c2e6b;
+        border-color: #3c2e6b;
+        color: white;
+        box-shadow: 0 8px 15px -8px #3c2e6b;
+      }
+
+      .category-option input[type="radio"]:checked + label i {
+        color: white;
+      }
+
+      .category-option label:hover {
+        background: #ede7ff;
+        border-color: #9b8acf;
+      }
+
+      /* Author section with add new option */
+      .author-input-group {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .author-input-group .form-control {
+        flex: 1;
+      }
+
+      .author-type-toggle {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .author-type-btn {
+        padding: 0.8rem 1.2rem;
+        border: 2px solid #e3daf5;
+        background: white;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 500;
+        color: #4a3f6b;
+        transition: all 0.2s;
+      }
+
+      .author-type-btn.active {
+        background: #3c2e6b;
+        border-color: #3c2e6b;
+        color: white;
+      }
+
+      .author-type-btn i {
+        margin-right: 5px;
+      }
+
+      /* Tags input */
+      .tags-input-container {
+        border: 2px solid #e3daf5;
+        border-radius: 30px;
+        padding: 0.5rem 1rem;
+        background: #fcfaff;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .tag {
+        background: #e7dffc;
+        color: #372f58;
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .tag i {
+        cursor: pointer;
+        font-size: 0.8rem;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+      }
+
+      .tag i:hover {
+        opacity: 1;
+        color: #dc2626;
+      }
+
+      .tags-input {
+        border: none;
+        background: transparent;
+        padding: 0.5rem;
+        font-size: 0.95rem;
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .tags-input:focus {
+        outline: none;
+      }
+
+      .tags-hint {
+        font-size: 0.8rem;
+        color: #8f82b3;
+        margin-top: 0.5rem;
+        margin-left: 0.5rem;
+      }
+
+      /* Privacy options */
+      .privacy-options {
+        display: flex;
+        gap: 2rem;
+        margin-top: 0.5rem;
+      }
+
+      .privacy-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+
+      .privacy-option input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #4f46e5;
+        cursor: pointer;
+      }
+
+      .privacy-option span {
+        color: #4a3f6b;
+        font-weight: 500;
+      }
+
+      .privacy-option small {
+        color: #8f82b3;
+        font-size: 0.85rem;
+        margin-left: 5px;
+      }
+
+      /* Form Actions */
+      .form-actions {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 3rem;
+        border-top: 2px dashed #e3daf5;
+        padding-top: 2rem;
+      }
+
+      .btn-primary {
+        background: #3c2e6b;
+        color: white;
+        border: none;
+        padding: 1.2rem 2.5rem;
+        border-radius: 60px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 10px 20px -8px #382e63;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 2;
+        justify-content: center;
+      }
+
+      .btn-primary:hover {
+        background: #2d2252;
+        transform: translateY(-2px);
+        box-shadow: 0 15px 25px -10px #2d2252;
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #4a3f6b;
+        border: 2px solid #e3daf5;
+        padding: 1.2rem 2.5rem;
+        border-radius: 60px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        justify-content: center;
+      }
+
+      .btn-secondary:hover {
+        background: #f8f5ff;
+        border-color: #9b8acf;
+      }
+
+      /* Preview Card */
+      .preview-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+        border-radius: 48px;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+      }
+
+      .preview-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 1.5rem;
+        color: #4a3f6b;
+      }
+
+      .preview-header h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+
+      .quote-preview {
+        background: white;
+        border-radius: 32px;
+        padding: 2rem;
+        box-shadow: 0 10px 25px -12px rgba(28, 15, 54, 0.2);
+      }
+
+      .preview-badge {
+        display: inline-block;
+        background: #e7dffc;
+        color: #372f58;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.4rem 1.2rem;
+        border-radius: 40px;
+        margin-bottom: 1rem;
+      }
+
+      .preview-text {
+        font-size: 1.3rem;
+        line-height: 1.6;
+        color: #1a112b;
+        margin-bottom: 1rem;
+        font-style: italic;
+      }
+
+      .preview-text::before {
+        content: "“";
+        font-size: 2rem;
+        color: #9b8acf;
+        font-family: serif;
+        margin-right: 2px;
+      }
+
+      .preview-text::after {
+        content: "”";
+        font-size: 2rem;
+        color: #9b8acf;
+        font-family: serif;
+        margin-left: 2px;
+      }
+
+      .preview-author {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #46397c;
+        font-weight: 500;
+        font-size: 1.1rem;
+        border-top: 1.5px dashed #cec1e8;
+        padding-top: 1rem;
+      }
+
+      /* Success Message */
+      .success-message {
+        background: #dcfce7;
+        border: 1px solid #bbf7d0;
+        color: #166534;
+        padding: 1rem 1.5rem;
+        border-radius: 40px;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: slideDown 0.3s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Quote Suggestions */
+      .suggestions-section {
+        margin-top: 3rem;
+      }
+
+      .suggestions-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #4a3f6b;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+      }
+
+      .suggestion-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .suggestion-chip {
+        background: white;
+        border: 2px solid #e3daf5;
+        border-radius: 40px;
+        padding: 0.8rem 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: #4a3f6b;
+        font-weight: 500;
+      }
+
+      .suggestion-chip:hover {
+        background: #f0ebfc;
+        border-color: #9b8acf;
+        transform: scale(1.02);
+      }
+
+      .suggestion-chip i {
+        color: #8b7bb8;
+        margin-right: 8px;
+        font-size: 0.9rem;
+      }
+
+      /* Loading State */
+      .loading {
+        opacity: 0.7;
+        pointer-events: none;
+        position: relative;
+      }
+
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid #ffffff;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .login-pill {
+        border-radius: 40px;
+        padding: 0.5rem 1.2rem 0.5rem 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #e1d9f0;
+        color: #463b6b;
+      }
+      .login-pill i {
+        color: #7b6bb3;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="add-quote-container">
+      <!-- Navigation -->
+      <nav class="top-nav">
+        <div class="logo-area">
+          <div class="logo-icon"><i class="fas fa-quote-left"></i></div>
+          <h1>quote•lounge</h1>
+        </div>
+        <div class="login-pill">
+        <div class="nav-links">
+          <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+          <a href="/profile/" class="nav-link"
+            ><i class="fas fa-user"></i> Profile</a
+          >
+          <a href="/add-quote/" class="nav-link active"
+            ><i class="fas fa-plus-circle"></i> Add Quote</a
+          >
+          <div class="user-menu">
+            <div class="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+        </div>
+        </div>
+      </nav>
+
+      <!-- Success Message (hidden by default) -->
+      <!-- <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i>
+            Quote added successfully! It's now live on your profile.
+        </div> -->
+
+      <!-- Main Add Quote Card -->
+      <div class="add-quote-card">
+        <div class="page-header">
+          <h2><i class="fas fa-feather-alt"></i> Share a Quote</h2>
+          <p>Spread wisdom, one quote at a time</p>
+        </div>
+
+        <form
+          class="quote-form"
+          id="quoteForm"
+          method="post"
+          action="/add-quote/"
+        >
+          {% csrf_token %}
+          <!-- Quote Text -->
+          <div class="form-group">
+            <label><i class="fas fa-quote-right"></i> Quote *</label>
+            <textarea
+              class="form-control"
+              id="quoteText"
+              placeholder="Enter the quote here..."
+              maxlength="500"
+              name="quotetext"
+              required
+            ></textarea>
+            <div class="char-counter">
+              <i class="fas fa-text-height"></i>
+              <span id="charCount">0</span>/500
+            </div>
+          </div>
+
+          <!-- Author -->
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> Author *</label>
+            <div class="author-input-group">
+              <input
+                type="text"
+                class="form-control"
+                id="author"
+                placeholder="Who said this?"
+                name="author"
+                required
+              />
+              <div class="author-type-toggle">
+                <div class="author-type-btn active" id="knownAuthor">
+                  <i class="fas fa-user-check"></i> Known
+                </div>
+                <div class="author-type-btn" id="anonymousAuthor">
+                  <i class="fas fa-user-secret"></i> Anonymous
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Selection -->
+          <div class="form-group">
+            <label><i class="fas fa-tag"></i> Category *</label>
+            <div class="category-grid">
+              {% for category in categories %}
+              <div class="category-option">
+                <input
+                  type="radio"
+                  name="category"
+                  id="cat{{category.id}}"
+                  value="{{category.id}}"
+                />
+                <label for="cat{{category.id}}">
+                  <i class="fas fa-tag"></i> {{category.name}}
+                </label>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Tags (Optional) -->
+          <div class="form-group">
+            <label><i class="fas fa-hashtag"></i> Tags (Optional)</label>
+            <div class="tags-input-container" id="tagsContainer">
+              <span class="tag"
+                >inspiration
+                <i class="fas fa-times" onclick="removeTag(this)"></i
+              ></span>
+              <span class="tag"
+                >success <i class="fas fa-times" onclick="removeTag(this)"></i
+              ></span>
+              <span class="tag"
+                >motivation
+                <i class="fas fa-times" onclick="removeTag(this)"></i
+              ></span>
+              <input
+                type="text"
+                class="tags-input"
+                id="tagInput"
+                placeholder="Add a tag..."
+                onkeydown="handleTagInput(event)"
+              />
+            </div>
+            <div class="tags-hint">
+              <i class="fas fa-info-circle"></i> Press comma or enter to add a
+              tag
+            </div>
+          </div>
+
+          <!-- Privacy Options -->
+          <div class="form-group">
+            <label><i class="fas fa-lock"></i> Privacy</label>
+            <div class="privacy-options">
+              <label class="privacy-option">
+                <input type="radio" name="privacy" value="public" checked />
+                <span>Public <small>Everyone can see</small></span>
+              </label>
+              <label class="privacy-option">
+                <input type="radio" name="privacy" value="private" />
+                <span>Private <small>Only you</small></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="resetForm()">
+              <i class="fas fa-undo"></i> Reset
+            </button>
+            <button type="submit" class="btn-primary" id="submitBtn">
+              <i class="fas fa-cloud-upload-alt"></i> Share Quote
+              <span class="spinner" style="display: none"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="preview-card">
+        <div class="preview-header">
+          <i class="fas fa-eye"></i>
+          <h3>Live Preview</h3>
+        </div>
+        <div class="quote-preview" id="quotePreview">
+          <span class="preview-badge" id="previewCategory">Life</span>
+          <div class="preview-text" id="previewText">
+            The only way to do great work is to love what you do.
+          </div>
+          <div class="preview-author" id="previewAuthor">
+            <i class="fas fa-feather"></i> Steve Jobs
+          </div>
+        </div>
+      </div>
+
+      <!-- Quote Suggestions -->
+      <div class="suggestions-section">
+        <div class="suggestions-title">
+          <i class="fas fa-lightbulb"></i>
+          <h3>Need inspiration? Try these:</h3>
+        </div>
+        <div class="suggestion-chips">
+          <div class="suggestion-chip" onclick="fillSuggestion('life')">
+            <i class="fas fa-heart"></i> Life quotes
+          </div>
+          <div class="suggestion-chip" onclick="fillSuggestion('success')">
+            <i class="fas fa-trophy"></i> Success quotes
+          </div>
+          <div class="suggestion-chip" onclick="fillSuggestion('love')">
+            <i class="fas fa-heart"></i> Love quotes
+          </div>
+          <div class="suggestion-chip" onclick="fillSuggestion('wisdom')">
+            <i class="fas fa-brain"></i> Wisdom quotes
+          </div>
+          <div class="suggestion-chip" onclick="fillSuggestion('humor')">
+            <i class="fas fa-laugh"></i> Funny quotes
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Character counter
+      const quoteText = document.getElementById("quoteText");
+      const charCount = document.getElementById("charCount");
+
+      quoteText.addEventListener("input", function () {
+        const length = this.value.length;
+        charCount.textContent = length;
+
+        // Visual warning when approaching limit
+        if (length > 450) {
+          charCount.style.color = "#dc2626";
+        } else if (length > 400) {
+          charCount.style.color = "#f59e0b";
+        } else {
+          charCount.style.color = "#8f82b3";
+        }
+      });
+
+      // Live preview update
+      function updatePreview() {
+        const text =
+          document.getElementById("quoteText").value ||
+          "Your quote will appear here";
+        const author = document.getElementById("author").value || "Anonymous";
+        const category = document.querySelector(
+          'input[name="category"]:checked',
+        );
+        const categoryLabel = category
+          ? category.nextElementSibling.textContent.trim()
+          : "Life";
+
+        document.getElementById("previewText").textContent = text;
+        document.getElementById("previewAuthor").innerHTML =
+          '<i class="fas fa-feather"></i> ' + author;
+        document.getElementById("previewCategory").textContent = categoryLabel;
+      }
+
+      // Update preview on input changes
+      document
+        .getElementById("quoteText")
+        .addEventListener("input", updatePreview);
+      document
+        .getElementById("author")
+        .addEventListener("input", updatePreview);
+      document.querySelectorAll('input[name="category"]').forEach((radio) => {
+        radio.addEventListener("change", updatePreview);
+      });
+
+      // Author type toggle
+      document
+        .getElementById("anonymousAuthor")
+        .addEventListener("click", function () {
+          document.getElementById("author").value = "Anonymous";
+          document.getElementById("author").disabled = true;
+          this.classList.add("active");
+          document.getElementById("knownAuthor").classList.remove("active");
+          updatePreview();
+        });
+
+      document
+        .getElementById("knownAuthor")
+        .addEventListener("click", function () {
+          document.getElementById("author").value = "";
+          document.getElementById("author").disabled = false;
+          document.getElementById("author").focus();
+          this.classList.add("active");
+          document.getElementById("anonymousAuthor").classList.remove("active");
+          updatePreview();
+        });
+
+      // Tags functionality
+      function handleTagInput(event) {
+        if (event.key === "," || event.key === "Enter") {
+          event.preventDefault();
+          const input = event.target;
+          const tag = input.value.trim().replace(/,/g, "");
+
+          if (tag) {
+            addTag(tag);
+            input.value = "";
+          }
+        }
+      }
+
+      function addTag(tag) {
+        const container = document.getElementById("tagsContainer");
+        const tagElement = document.createElement("span");
+        tagElement.className = "tag";
+        tagElement.innerHTML = `${tag} <i class="fas fa-times" onclick="removeTag(this)"></i>`;
+
+        // Insert before the input
+        const input = document.getElementById("tagInput");
+        container.insertBefore(tagElement, input);
+      }
+
+      function removeTag(element) {
+        element.parentElement.remove();
+      }
+
+      // Form submission
+      document
+        .getElementById("quoteForm")
+        .addEventListener("submit", function () {
+          const submitBtn = document.getElementById("submitBtn");
+          const spinner = submitBtn.querySelector(".spinner");
+          const icon = submitBtn.querySelector("i");
+
+          icon.style.display = "none";
+          spinner.style.display = "inline-block";
+          submitBtn.classList.add("loading");
+        });
+
+      // Reset form
+      function resetForm() {
+        if (
+          confirm(
+            "Are you sure you want to reset the form? All entered data will be lost.",
+          )
+        ) {
+          document.getElementById("quoteForm").reset();
+          document.getElementById("author").disabled = false;
+          document.getElementById("knownAuthor").classList.add("active");
+          document.getElementById("anonymousAuthor").classList.remove("active");
+
+          // Clear tags except default ones
+          const container = document.getElementById("tagsContainer");
+          const input = document.getElementById("tagInput");
+          container.innerHTML = "";
+          container.appendChild(input);
+
+          // Add default tags
+          addTag("inspiration");
+          addTag("success");
+          addTag("motivation");
+
+          updatePreview();
+        }
+      }
+
+      // Fill suggestion
+      function fillSuggestion(type) {
+        const suggestions = {
+          life: {
+            text: "Life is what happens when you're busy making other plans.",
+            author: "John Lennon",
+            category: "life",
+          },
+          success: {
+            text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            author: "Winston Churchill",
+            category: "success",
+          },
+          love: {
+            text: "The best thing to hold onto in life is each other.",
+            author: "Audrey Hepburn",
+            category: "love",
+          },
+          wisdom: {
+            text: "The only true wisdom is in knowing you know nothing.",
+            author: "Socrates",
+            category: "wisdom",
+          },
+          humor: {
+            text: "I'm not arguing, I'm just explaining why I'm right.",
+            author: "Unknown",
+            category: "humor",
+          },
+        };
+
+        const suggestion = suggestions[type];
+        if (suggestion) {
+          document.getElementById("quoteText").value = suggestion.text;
+          document.getElementById("author").value = suggestion.author;
+          document.querySelector(
+            `input[value="${suggestion.category}"]`,
+          ).checked = true;
+          updatePreview();
+        }
+      }
+
+      // Initialize preview
+      updatePreview();
+    </script>
+  </body>
+</html>
